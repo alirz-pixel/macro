@@ -130,7 +130,7 @@ def Get_Option():
             cup=list(f.readline().strip('\n').split())
         f.close()
         #옵션에서 조정 가능한 키 출력. 
-        print("매크로 시작 키:"+special_keys['start']+" 매크로 중지 키 :"+special_keys['stop'])
+        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
     except: #첫 실행시 또는 옵션txt파일에 문제 있을 시 초기화후 실행
         f=open("option.txt",'w')
@@ -143,7 +143,7 @@ def Get_Option():
             special_keys[cup[0]]=cup[2]
             cup=list(f.readline().strip('\n').split())
         f.close()
-        print("매크로 시작 키:"+special_keys['start']+" 매크로 중지 키 :"+special_keys['stop'])
+        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
 def Open_option():
     start=special_keys['start']
@@ -166,15 +166,23 @@ def Open_option():
                                
     def Save_option():
         global special_keys, start, stop
-        special_keys['start']=start
-        special_keys['stop']=stop
-        f=open("option.txt",'w')
-        f.write("start = "+special_keys['start']+"\n")
-        f.write("stop = "+special_keys['stop']+"\n")
-        f.close()
-        la_bstart.configure(text="start = "+special_keys['start'])
-        la_bstop.configure(text="start = "+special_keys['stop'])
-        print("옵션 저장 완료")
+        try: #start 옵션을 수정한 경우
+            f = open("option.txt", 'w')
+            special_keys['start']=start
+            f.write("start = " + special_keys['start'] + "\n")
+            f.close()
+        except:
+            print("프로그램 실행 이후 매크로 시작 키가 수정된 내용이 없습니다.")
+
+        try: #stop 옵션을 수정한 경우
+            f = open("option.txt", 'w')
+            special_keys['stop']=stop
+            f.write("stop = " + special_keys['stop'] + "\n")
+            f.close()
+        except:
+            print("프로그램 실행 이후 매크로 종료 키가 수정된 내용이 없습니다.")
+
+        print("옵션 수정 완료")
         win_option.destroy()
         
     win_option = tk.Tk()
