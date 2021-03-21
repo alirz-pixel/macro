@@ -130,7 +130,7 @@ def Get_Option():
             cup=list(f.readline().strip('\n').split())
         f.close()
         #옵션에서 조정 가능한 키 출력. 
-        print("매크로 시작 키:"+special_keys['start']+" 매크로 중지 키 :"+special_keys['stop'])
+        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
     except: #첫 실행시 또는 옵션txt파일에 문제 있을 시 초기화후 실행
         f=open("option.txt",'w')
@@ -143,7 +143,7 @@ def Get_Option():
             special_keys[cup[0]]=cup[2]
             cup=list(f.readline().strip('\n').split())
         f.close()
-        print("매크로 시작 키:"+special_keys['start']+" 매크로 중지 키 :"+special_keys['stop'])
+        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
 def Open_option():
     start=special_keys['start']
@@ -166,20 +166,31 @@ def Open_option():
                                
     def Save_option():
         global special_keys, start, stop
-        special_keys['start']=start
-        special_keys['stop']=stop
-        f=open("option.txt",'w')
-        f.write("start = "+special_keys['start']+"\n")
-        f.write("stop = "+special_keys['stop']+"\n")
-        f.close()
-        la_bstart.configure(text="start = "+special_keys['start'])
-        la_bstop.configure(text="start = "+special_keys['stop'])
-        print("옵션 저장 완료")
+        try: #start 옵션을 수정한 경우
+            f = open("option.txt", 'w')
+            special_keys['start']=start
+            f.write("start = " + special_keys['start'] + "\n")
+            f.close()
+        except:
+            print("프로그램 실행 이후 매크로 시작 키가 수정된 내용이 없습니다.")
+
+        try: #stop 옵션을 수정한 경우
+            f = open("option.txt", 'w')
+            special_keys['stop']=stop
+            f.write("stop = " + special_keys['stop'] + "\n")
+            f.close()
+        except:
+            print("프로그램 실행 이후 매크로 종료 키가 수정된 내용이 없습니다.")
+
+        print("옵션 수정 완료")
         win_option.destroy()
-        
+
+    def Cancel_Option():
+        win_option.destroy()
+
     win_option = tk.Tk()
     win_option.title("옵션")
-    win_option.geometry("180x120")
+    win_option.geometry("160x120")
     win_option.attributes('-toolwindow', True)
 
     la_bstart=tk.Label(win_option,text="start = "+special_keys['start'])
@@ -187,12 +198,14 @@ def Open_option():
     la_bstop=tk.Label(win_option,text="stop = "+special_keys['stop'])
     bu_astop=tk.Button(win_option,text="변경",relief='sunken',command=GetKeyStop)
     bu_save=tk.Button(win_option,text="완료",command=Save_option)
+    bu_cancel = tk.Button(win_option, text="취소", command=Cancel_Option)
 
-    la_bstart.place(x=13, y= 17)
-    bu_astart.place(x=120,y=17)
-    la_bstop.place(x=13, y= 40)
-    bu_astop.place(x=120,y=40)
-    bu_save.place(x=60, y=80, width=60, height=25)
+    la_bstart.place(x=12, y= 17)
+    bu_astart.place(x=110,y=17)
+    la_bstop.place(x=12, y= 40)
+    bu_astop.place(x=110,y=40)
+    bu_save.place(x=15, y=80, width=60, height=25)
+    bu_cancel.place(x=85, y=80, width=60, height=25)
 
     win_option.mainloop()
 
