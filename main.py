@@ -155,6 +155,7 @@ def Open_option():
             start=key
             la_bstart.configure(text="start = "+key)
         Add_Key(GetKeyStartMain,caller="OptionStart")
+
     def GetKeyStop():
         global key
         def GetKeyStopMain():
@@ -178,7 +179,7 @@ def Open_option():
         
     win_option = tk.Tk()
     win_option.title("옵션")
-    win_option.geometry("200x120")
+    win_option.geometry("180x120")
     win_option.attributes('-toolwindow', True)
 
     la_bstart=tk.Label(win_option,text="start = "+special_keys['start'])
@@ -186,13 +187,15 @@ def Open_option():
     la_bstop=tk.Label(win_option,text="stop = "+special_keys['stop'])
     bu_astop=tk.Button(win_option,text="변경",relief='sunken',command=GetKeyStop)
     bu_save=tk.Button(win_option,text="완료",command=Save_option)
+
     la_bstart.place(x=13, y= 17)
     bu_astart.place(x=120,y=17)
     la_bstop.place(x=13, y= 40)
     bu_astop.place(x=120,y=40)
-    bu_save.place(x=40, y=80, width=130, height=20)
+    bu_save.place(x=60, y=80, width=60, height=25)
 
     win_option.mainloop()
+
 #tk 기본 설정
 win = tk.Tk()
 win.title("Py Macro")
