@@ -184,10 +184,13 @@ def Open_option():
 
         print("옵션 수정 완료")
         win_option.destroy()
-        
+
+    def Cancel_Option():
+        win_option.destroy()
+
     win_option = tk.Tk()
     win_option.title("옵션")
-    win_option.geometry("180x120")
+    win_option.geometry("160x120")
     win_option.attributes('-toolwindow', True)
 
     la_bstart=tk.Label(win_option,text="start = "+special_keys['start'])
@@ -195,12 +198,14 @@ def Open_option():
     la_bstop=tk.Label(win_option,text="stop = "+special_keys['stop'])
     bu_astop=tk.Button(win_option,text="변경",relief='sunken',command=GetKeyStop)
     bu_save=tk.Button(win_option,text="완료",command=Save_option)
+    bu_cancel = tk.Button(win_option, text="취소", command=Cancel_Option)
 
-    la_bstart.place(x=13, y= 17)
-    bu_astart.place(x=120,y=17)
-    la_bstop.place(x=13, y= 40)
-    bu_astop.place(x=120,y=40)
-    bu_save.place(x=60, y=80, width=60, height=25)
+    la_bstart.place(x=12, y= 17)
+    bu_astart.place(x=110,y=17)
+    la_bstop.place(x=12, y= 40)
+    bu_astop.place(x=110,y=40)
+    bu_save.place(x=15, y=80, width=60, height=25)
+    bu_cancel.place(x=85, y=80, width=60, height=25)
 
     win_option.mainloop()
 
