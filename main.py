@@ -124,13 +124,6 @@ def Get_Option():
     global special_keys
     try:
         f=open("option.txt",'r')
-        cup=list(f.readline().strip('\n').split())
-        while cup!=list(''):
-            special_keys[cup[0]]=cup[2]
-            cup=list(f.readline().strip('\n').split())
-        f.close()
-        #옵션에서 조정 가능한 키 출력. 
-        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
     except: #첫 실행시 또는 옵션txt파일에 문제 있을 시 초기화후 실행
         f=open("option.txt",'w')
@@ -138,12 +131,14 @@ def Get_Option():
         f.write('stop = F2\n')
         f.close()
         f=open("option.txt",'r')
+
+    cup=list(f.readline().strip('\n').split())
+    while cup!=list(''):
+        special_keys[cup[0]]=cup[2]
         cup=list(f.readline().strip('\n').split())
-        while cup!=list(''):
-            special_keys[cup[0]]=cup[2]
-            cup=list(f.readline().strip('\n').split())
-        f.close()
-        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
+    f.close()
+    # 옵션에서 조정 가능한 키 출력.
+    print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
 def Open_option():
     start=special_keys['start']
