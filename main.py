@@ -1,3 +1,16 @@
+''' #다음 수정사안
+
+옵션에 들어가서 start / stop 키를 변경하고 취소를 누른 후,
+다시 옵션에 들어가서 확인을 누르면 전에 바꾸려고 했던 키가 수정이 된다.
+
+이 부분을 수정해야 함.
+
+현재 나온 생각은
+Open_Option 에 들어가자마자 start를 선언하게 되는데 이를 없애보자
+
+or 아무것도 안 가리치도록 설정하자
+'''
+
 import keyboard
 import tkinter as tk
 
@@ -124,13 +137,6 @@ def Get_Option():
     global special_keys
     try:
         f=open("option.txt",'r')
-        cup=list(f.readline().strip('\n').split())
-        while cup!=list(''):
-            special_keys[cup[0]]=cup[2]
-            cup=list(f.readline().strip('\n').split())
-        f.close()
-        #옵션에서 조정 가능한 키 출력. 
-        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
     except: #첫 실행시 또는 옵션txt파일에 문제 있을 시 초기화후 실행
         f=open("option.txt",'w')
@@ -138,16 +144,16 @@ def Get_Option():
         f.write('stop = F2\n')
         f.close()
         f=open("option.txt",'r')
+
+    cup=list(f.readline().strip('\n').split())
+    while cup!=list(''):
+        special_keys[cup[0]]=cup[2]
         cup=list(f.readline().strip('\n').split())
-        while cup!=list(''):
-            special_keys[cup[0]]=cup[2]
-            cup=list(f.readline().strip('\n').split())
-        f.close()
-        print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
+    f.close()
+    # 옵션에서 조정 가능한 키 출력.
+    print("매크로 시작 키:" + special_keys['start'] + " 매크로 중지 키 :" + special_keys['stop'])
 
 def Open_option():
-    start=special_keys['start']
-    stop=special_keys['stop']
     def GetKeyStart():
         global key
         def GetKeyStartMain():
@@ -166,26 +172,38 @@ def Open_option():
                                
     def Save_option():
         global special_keys, start, stop
-        try: #start 옵션을 수정한 경우
-            f = open("option.txt", 'w')
-            special_keys['start']=start
-            f.write("start = " + special_keys['start'] + "\n")
-            f.close()
-        except:
+        try:
+            if start != '': #start 옵션을 수정한 경우
+                f = open("option.txt", 'w')
+                special_keys['start'] = start
+                f.write("start = " + special_keys['start'] + "\n")
+                f.write("stop = " + special_keys['stop'] + "\n")
+                f.close()
+            else: #start 옵션을 수정하지 않은 경우 에러 발생
+                raise('try 문에는 들어왔지만 start가 수정되지 않았습니다.')
+
+        except: #start 옵션을 수정하지 않은 경우 에러 발생
             print("프로그램 실행 이후 매크로 시작 키가 수정된 내용이 없습니다.")
 
-        try: #stop 옵션을 수정한 경우
-            f = open("option.txt", 'w')
-            special_keys['stop']=stop
-            f.write("stop = " + special_keys['stop'] + "\n")
-            f.close()
-        except:
+        try:
+            if stop != '': #stop 옵션을 수정한 경우
+                f = open("option.txt", 'w')
+                special_keys['stop']=stop
+                f.write("start = " + special_keys['start'] + "\n")
+                f.write("stop = " + special_keys['stop'] + "\n")
+                f.close()
+            else: #stop 옵션을 수정하지 않은 경우 에러 발생
+                raise('try 문에는 들어왔지만 stop이 수정되지 않았습니다.')
+
+        except: #stop 옵션을 수정하지 않은 경우 에러 발생
             print("프로그램 실행 이후 매크로 종료 키가 수정된 내용이 없습니다.")
 
-        print("옵션 수정 완료")
         win_option.destroy()
 
     def Cancel_Option():
+        global start, stop
+        start = ''
+        stop = ''
         win_option.destroy()
 
     win_option = tk.Tk()
